@@ -1,22 +1,52 @@
-import React from 'react'
-import Navbar from '../../components/navbar/Navbar'
+import React, { useState } from 'react';
+import Navbar from '../../components/navbar/Navbar';
+import { LoremPicsumService } from '../../services/LoremPicsumService';
+import './PicturePage.css';
 
 function PicturePage() {
+  const [searchId, setSearchId] = useState('');
+  const [image, setImage] = useState('');
+
+  const handleSearch = () => {
+    if (searchId) {
+      const loremService = LoremPicsumService();
+      loremService.getById(searchId, '400/500')
+        .then(response => {
+          const imageUrl = `https://picsum.photos/id/${searchId}/400/500`;
+          setImage(imageUrl);
+        })
+        .catch(error => {
+          console.error('Error al buscar imagen por su ID', error);
+        });
+    }
+  };
+
   return (
-    <main>
-        <h2>Aquí estará la imagen de la segunda llamada</h2>
-        <Navbar/>
-        <ul>
-            <p>INSTRUCCIONES</p>
-            <li>Crea los componentes que necesites para imprimir lo siguiente (siguiendo el ejemplo del componente PictureObject):</li>
-            <ol>
-                <li>La fotografía (queremos ver la imagen en nuestra app, no queremos la url),.</li>
-            </ol>
-            <li>Has de borrar estas instrucciones cuando lo tengas.</li>
-            <li>Los estilos los has de realizar tú misma.</li>
-        </ul>
-    </main> 
-  )
+    <main className='main-container'>
+      <h2>Buscar imagen por ID</h2>
+      <Navbar />
+      <div className='search-container'>
+      <input
+        type="text"
+        placeholder="Ingrese ID de la imagen"
+        value={searchId}
+        onChange={e => setSearchId(e.target.value)}
+      />
+      <button onClick={handleSearch} className='search-button'>Buscar</button>
+      </div>
+      {image && (
+        <div className='image-container'>
+          <img
+            src={image}
+            alt={`Imagen con ID ${searchId}`}
+            style={{ maxWidth: '100%' }}
+          />
+        </div>
+      )}
+    </main>
+  );
 }
 
-export default PicturePage
+export default PicturePage;
+
+

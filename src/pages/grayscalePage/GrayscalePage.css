@@ -1,0 +1,10 @@
+.main-container {
+align-items: center;
+}
+
+.image-gray {
+    display: flex;
+    text-align: center;
+    padding: 60px;
+    justify-content: center;
+}
