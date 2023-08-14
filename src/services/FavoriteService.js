@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:3001'; // Cambia la URL según la configuración de tu json-server
+axios.defaults.baseURL = 'http://localhost:5000'; // Cambia la URL según la configuración de tu json-server
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 axios.defaults.headers.post['Accept'] = 'application/json';
 

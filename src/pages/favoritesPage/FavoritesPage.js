@@ -1,11 +1,40 @@
-import React from 'react'
-import Navbar from '../../components/navbar/Navbar'
+import React, { useState , useEffect } from 'react';
+import Navbar from '../../components/navbar/Navbar';
+import ImageCard from '../../components/imageCard/ImageCard';
+import { FavoriteService } from '../../services/FavoriteService';
+import AddToFavoritesForm from '../../components/AddToFavs/AddToFavoritesForm';
 
-function FavoritesPage() {
+  function FavoritesPage() {
+    const [favoriteImages, setFavoriteImages] = useState([]);
+  
+    useEffect(() => {
+      const favoriteService = FavoriteService();
+  
+      favoriteService.getAll()
+        .then(response => {
+          setFavoriteImages(response.data);
+        })
+        .catch(error => {
+          console.error('Error al buscar favoritos', error);
+        });
+    }, []);
+
+    const handleCardAdded = () => {
+      // Esta función se llamará cuando se agregue una nueva tarjeta a favoritos
+      FavoriteService(); // Actualiza la lista de favoritos
+    };
+  
+
   return (
     <main>
         <h2>Aquí estará la página principal donde guardarás tus objetos favoritos</h2>
         <Navbar/>
+        <AddToFavoritesForm onCardAdded={handleCardAdded} />
+        <div className="image-list">
+        {favoriteImages.map(image => (
+          <ImageCard key={image.id} image={image} />
+        ))}
+      </div>
         <ul>
             <p>INSTRUCCIONES</p>
             <li>Crea un servicio llamado FavoriteService.js siguiendo el ejemplo de LoremPicsumService.js, que contenga toda la lógica que necesites para realizar el CRUD, usando axios, tu endpoint será el que te proporcione el json-server.</li>
@@ -26,7 +55,7 @@ function FavoritesPage() {
             <li>Los estilos los has de realizar tú misma.</li>
         </ul>
     </main>
-  )
+  );
 }
 
-export default FavoritesPage
+export default FavoritesPage;

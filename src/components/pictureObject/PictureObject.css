@@ -1,0 +1,16 @@
+h3 {
+    display: flex;
+    justify-content: center;
+    color: var(--main-color);
+}
+
+.image-card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+img {
+    max-width: 50%;
+}
